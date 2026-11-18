@@ -1,0 +1,101 @@
+﻿@{
+    ViewBag.Title = "Bienvenido Administrador";
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: #f5f5f5;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 700px;
+        margin: 50px auto;
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        overflow: hidden;
+    }
+
+    .header {
+        background: linear-gradient(to right, #1a1a1a, #3d3d3d);
+        color: white;
+        text-align: center;
+        padding: 20px;
+    }
+
+        .header h2 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+    .content {
+        padding: 30px;
+        text-align: center;
+    }
+
+        .content p {
+            font-size: 16px;
+        }
+
+        .content strong {
+            color: #d10024;
+        }
+
+    .actions-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+        .actions-grid a {
+            display: block;
+            text-decoration: none;
+            padding: 15px 0;
+            font-weight: bold;
+            color: white;
+            border-radius: 10px;
+            transition: opacity 0.3s ease;
+            text-align: center;
+        }
+
+            .actions-grid a:hover {
+                opacity: 0.85;
+            }
+
+    .btn-orange {
+        background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    }
+
+    .btn-dark {
+        background: linear-gradient(to right, #1e1e1e, #292929);
+    }
+
+    .action-btn {
+        background: linear-gradient(45deg, #ff6a00, #ee0979);
+    }
+</style>
+
+<div class="container">
+    <div class="header">
+        <h2>¡Bienvenido!</h2>
+    </div>
+    <div class="content">
+        <p>Has iniciado sesión como <strong>Administrador</strong>.</p>
+
+        <div class="actions-grid">
+            <a href="/Mecanico/Index" class="btn-orange">Agregar Mecánico</a>
+            <a href="/Cliente/Index" class="btn-orange">Agregar Cliente</a>
+            <a href="/Servicios/Index" class="action-btn">Gestionar Servicios</a>
+            <a href="/Repuestos/Index" class="action-btn">Gestionar Repuestos</a>
+            <a href="/TrabajoMecanico/Index" class="btn-dark" style="grid-column: span 2;">Ver Órdenes En Proceso</a>
+            <a href="/TrabajoMecanico/OrdenesCanceladas" class="btn-dark" style="grid-column: span 2;">Órdenes Canceladas</a>
+            <a href="/OrdenesDeTrabajo/Index" class="btn-dark" style="grid-column: span 2;">Sistema de Agregación de Órdenes de Trabajo</a>
+        </div>
+
+       
+    </div>
+</div>

@@ -1,0 +1,173 @@
+﻿@model SistemaDeOrdenesDeReparacion.Model.ResumenDeOrdenDelClienteViewModel
+
+@{
+    ViewData["Title"] = "Resumen Completo de la Orden";
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: #f5f5f5;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 1000px;
+        margin: 40px auto;
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+
+    .section {
+        padding: 30px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .section-header {
+        background: linear-gradient(to right, #1f1c2c, #928dab);
+        color: white;
+        padding: 20px;
+        font-size: 1.4rem;
+        font-weight: bold;
+    }
+
+    .section table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    .section th, .section td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+    }
+
+    .section th {
+        color: #333;
+        font-weight: 600;
+    }
+
+    .totales {
+        font-weight: bold;
+        font-size: 1.1rem;
+    }
+
+    .btn-back {
+        display: inline-block;
+        margin: 30px;
+        background: linear-gradient(to right, #fc4a1a, #f7b733);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 12px;
+        font-weight: bold;
+        text-decoration: none;
+        transition: 0.3s ease;
+    }
+
+        .btn-back:hover {
+            opacity: 0.9;
+        }
+</style>
+
+<div class="container">
+
+    <div class="section-header">
+        Resumen Completo de la Orden #@Model.Orden.Id
+    </div>
+
+    
+    <div class="section">
+        <h3>Detalle General</h3>
+        <table>
+            <tr><th>Estado</th><td>@Model.Orden.Estado.GetDisplayName()</td></tr>
+            <tr><th>Tipo de vehículo</th><td>@Model.Orden.TipoDeVehiculo.GetDisplayName()</td></tr>
+            <tr><th>Marca</th><td>@Model.Orden.Marca</td></tr>
+            <tr><th>Modelo</th><td>@Model.Orden.Modelo</td></tr>
+            <tr><th>Tipo de combustión</th><td>@Model.Orden.TipoDeCombustionInterna</td></tr>
+            <tr><th>Año de fabricación</th><td>@Model.Orden.AñoDeFabricacion</td></tr>
+            <tr><th>Descripción del problema</th><td>@Model.Orden.DescripcionDelProblema</td></tr>
+            <tr><th>Identificación del Mecánico</th><td>@Model.Orden.Mecanico?.Identificacion</td></tr>
+            <tr><th>Nombre del Mecánico</th><td>@Model.Orden.Mecanico?.Nombre @Model.Orden.Mecanico?.Apellidos</td></tr>
+        </table>
+    </div>
+
+   
+    <div class="section">
+        <h3>Repuestos Asignados</h3>
+        @if (Model.Repuestos.Any())
+        {
+            <table>
+                <thead>
+                        <tr><th>Nombre</th>
+                        <th>Precio Unitario</th>
+                        <th>Cantidad</th>
+                        <th>Total</th></tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Repuestos)
+                    {
+                        <tr>
+                            <td>@item.InventarioDeRepuesto?.Nombre</td>
+                            <td>₡@item.InventarioDeRepuesto?.PrecioUnitario.ToString("N2")</td>
+                            <td>@item.Cantidad</td>
+                            <td>₡@item.Total.ToString("N2")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>No hay repuestos asignados.</p>
+        }
+    </div>
+
+    
+    <div class="section">
+        <h3>Servicios Asignados</h3>
+        @if (Model.Servicios.Any())
+        {
+            <table>
+                <thead>
+                        <tr><th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Total</th></tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Servicios)
+                    {
+                        <tr>
+                            <td>@item.InventarioDeServicio?.Nombre</td>
+                            <td>₡@item.InventarioDeServicio?.Precio.ToString("N2")</td>
+                            <td>@item.Cantidad</td>
+                            <td>₡@item.Total.ToString("N2")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>No hay servicios asignados.</p>
+        }
+    </div>
+
+ 
+    <div class="section">
+        <h3>Resumen Económico</h3>
+        <table>
+            <tr><th>Total de Repuestos</th><td>₡@Model.TotalRepuestos.ToString("N2")</td></tr>
+            <tr><th>Total de Servicios</th><td>₡@Model.TotalServicios.ToString("N2")</td></tr>
+            <tr class="totales"><th>Total</th><td>₡@Model.TotalGeneral.ToString("N2")</td></tr>
+        </table>
+    </div>
+
+    <div class="section" style="text-align: center;">
+        <a asp-action="OrdenesClientes" class="btn-back">← Volver a Mis Órdenes</a>
+    </div>
+</div>

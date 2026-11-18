@@ -1,0 +1,351 @@
+﻿@model List<SistemaDeOrdenesDeReparacion.Model.ResumenDeOrdenesViewModel>
+
+@{
+    ViewData["Title"] = "Gestión de Órdenes de Trabajo";
+    var rol = ViewContext.HttpContext.Session.GetString("RolUsuario");
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: #f5f5f5;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .container-fluid {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .card {
+        border: none;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+
+        .card.mb-4:first-child {
+            background: linear-gradient(45deg, #2c3e50, #34495e);
+            color: white;
+        }
+
+            .card.mb-4:first-child .card-body {
+                text-align: center;
+                padding: 30px;
+            }
+
+    .card-header.bg-primary {
+        background: linear-gradient(45deg, #dc2626, #f97316);
+        color: white;
+    }
+
+    .card-header.bg-info {
+        background: linear-gradient(45deg, #1a1a1a, #3d3d3d);
+        color: white;
+    }
+
+    .card-body {
+        background: #ffffff;
+        padding: 20px;
+    }
+
+    .row.g-3 .form-control {
+        padding: 10px;
+        border-radius: 8px;
+        border: 2px solid #ddd;
+    }
+
+    .row.g-3 .btn {
+        font-weight: bold;
+    }
+
+    .btn-success {
+        background: linear-gradient(45deg, #dc2626, #f97316);
+        border: none;
+        color: white;
+    }
+
+        .btn-success:hover {
+            opacity: .9;
+        }
+
+    .btn-outline-secondary {
+        border-color: #292929;
+        color: #292929;
+    }
+
+        .btn-outline-secondary:hover {
+            background: #292929;
+            color: white;
+        }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    table.table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        table.table th, table.table td {
+            padding: 12px;
+            vertical-align: middle;
+        }
+
+        table.table thead th {
+            background: linear-gradient(45deg, #2c3e50, #34495e);
+            color: white;
+        }
+
+    table.table-striped tbody tr:nth-child(even) {
+        background: #f9f9f9;
+    }
+
+    .btn-group .btn-outline-warning {
+        border-color: #f97316;
+        color: #f97316;
+    }
+
+        .btn-group .btn-outline-warning:hover {
+            background: #f97316;
+            color: white;
+        }
+
+    .alert-danger {
+        background: #f8d7da;
+        color: #842029;
+        border: none;
+    }
+
+    .btn-back {
+        display: inline-block;
+        background: linear-gradient(to right, #1e1e1e, #292929);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: opacity 0.3s;
+    }
+
+        .btn-back:hover {
+            opacity: .85;
+        }
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <!-- Encabezado -->
+            <div class="card mb-4" style="background: linear-gradient(45deg, #4a5568, #2d3748); color: white;">
+                <div class="card-body text-center">
+                    <h2><i class="fas fa-tools"></i> Sistema de Mecánico</h2>
+                    <p class="mb-0">Gestión de Órdenes de Trabajo</p>
+                </div>
+            </div>
+
+            <!-- Formulario de Búsqueda -->
+            <div class="card mb-4">
+                <div class="card-header text-white" style="background: linear-gradient(45deg, #ff5722, #ff7043);">
+                    <h5><i class="fas fa-search"></i> Filtrar Órdenes</h5>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("Index", "OrdenesDeTrabajo", FormMethod.Get, new { @class = "row g-3" }))
+                    {
+                        <div class="col-md-8">
+                            @Html.TextBox("Nombre", ViewBag.FiltroNombre as string, new
+                            {
+                                @class = "form-control",
+                                                @placeholder = "Buscar por nombre del cliente...",
+                                                @id = "txtNombre"
+                                                })
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn w-100" style="background: linear-gradient(45deg, #ff5722, #ff7043); color: white; border: none;">
+                            <i class="fas fa-search"></i> Buscar
+                        </button>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.ActionLink("Limpiar", "Index", "OrdenesDeTrabajo", null, new { @class = "btn btn-outline-secondary w-100" })
+                    </div>
+                                        }
+                </div>
+            </div>
+
+            
+            <div class="mb-3 d-flex gap-2 flex-wrap">
+                @Html.ActionLink("Nueva Orden", "Crear", "OrdenesDeTrabajo", null, new { @class = "btn text-white", @style = "background: linear-gradient(45deg, #ff5722, #ff7043); border: none;" })
+
+                
+                @if (rol == "administrador")
+                {
+                    <a asp-controller="Login" asp-action="VistaAdministrador" class="btn-back">
+                        <i class="fas fa-arrow-left"></i> Volver al Menú
+                    </a>
+                }
+                else if (rol == "mecanico")
+                {
+                    <a asp-controller="Mecanico" asp-action="VistaMecanico" class="btn-back">
+                        <i class="fas fa-arrow-left"></i> Volver al Menú
+                    </a>
+                }
+                else
+                {
+                 
+                    <a asp-controller="Login" asp-action="Index" class="back-btn">
+                        <i class="fas fa-arrow-left"></i> Iniciar Sesión
+                    </a>
+                }
+            </div>
+
+          
+            <div class="card">
+                <div class="card-header text-white" style="background: linear-gradient(45deg, #e53e3e, #fc8181);">
+                    <h5><i class="fas fa-list"></i> Listado de Órdenes (@Model.Count registros)</h5>
+                </div>
+                <div class="card-body p-0">
+                    @if (Model?.Any() == true)
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover mb-0">
+                                <thead style="background: #4a5568; color: white;">
+                                    <tr>
+                                        <th>Identificación Cliente</th>
+                                        <th>Nombre del Cliente</th>
+                                        <th>Apellidos del Cliente</th>
+                                        <th>Tipo de Vehículo</th>
+                                        <th>Marca</th>
+                                        <th>Modelo</th>
+                                        <th>Tipo de Combustión</th>
+                                        <th>Año de Fabricación</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var orden in Model)
+                                    {
+                                        <tr>
+                                         
+                                            <td>@orden.Identificacion</td>
+                                            <td><i class="fas fa-user me-1"></i>@orden.Nombre</td>
+                                            <td>@orden.Apellidos</td>
+                                            <td>
+                                                <span class="badge" style="background: linear-gradient(45deg, #4a5568, #2d3748); color: white;">@orden.TipoDeVehiculo.GetDisplayName()</span>
+                                            </td>
+                                            <td>@orden.Marca</td>
+                                            <td>@orden.Modelo</td>
+                                            <td><small class="text-muted">@orden.TipoDeCombustionInterna</small></td>
+                                            <td>@orden.AñoDeFabricacion</td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm" role="group">
+                                                    <a asp-action="Iniciar" asp-controller="OrdenesDeTrabajo" asp-route-id="@orden.Id"
+                                                       class="btn btn-sm text-white" style="background: linear-gradient(45deg, #ff5722, #ff7043); border: none;">
+                                                        Iniciar Orden
+                                                    </a>
+                                                    <a asp-action="Editar" asp-controller="OrdenesDeTrabajo" asp-route-id="@orden.Id"
+                                                       class="btn btn-sm text-white" style="background: linear-gradient(45deg, #ff5722, #ff7043); border: none;">
+                                                        Editar
+                                                    </a>
+                                                    <a asp-action="Cancelar" asp-controller="OrdenesDeTrabajo" asp-route-id="@orden.Id"
+                                                       class="btn btn-sm text-white" style="background: linear-gradient(45deg, #e53e3e, #fc8181); border: none;">
+                                                        Cancelar
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center p-5">
+                            <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                            <h4 class="text-muted">No se encontraron órdenes</h4>
+                            @if (!string.IsNullOrEmpty(ViewBag.FiltroNombre as string))
+                            {
+                                <p class="text-muted">
+                                    No hay órdenes que coincidan con "<strong>@ViewBag.FiltroNombre</strong>"
+                                </p>
+                                @Html.ActionLink("Ver todas las órdenes", "Index", "OrdenesDeTrabajo", null,
+                                new { @class = "btn text-white", @style = "background: linear-gradient(45deg, #ff5722, #ff7043); border: none;" })
+                                                }
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Mensaje de error -->
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-dismissible fade show mt-3" role="alert" style="background: linear-gradient(45deg, #e53e3e, #fc8181); color: white; border: none;">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    @ViewBag.Error
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
+                    <div class="mt-2">
+                        <a href="@Url.Action("VistaMecanico", "Mecanico")" class="btn text-white d-inline-flex align-items-center"
+                           style="background: linear-gradient(45deg, #4a5568, #2d3748); border: none; text-decoration: none;">
+                            <i class="fas fa-arrow-left me-2"></i>
+                            Volver al Menú
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    
+    .btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+
+    .card {
+        border: none;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .table-responsive {
+        border-radius: 0.375rem;
+    }
+
+    .badge {
+        font-size: 0.875em;
+        padding: 0.375rem 0.75rem;
+    }
+
+   
+    .table-hover tbody tr:hover {
+        background-color: rgba(255, 87, 34, 0.05);
+    }
+</style>
+
+
+@section Scripts {
+    <script>
+        document.getElementById('txtNombre')?.focus();
+
+        document.getElementById('txtNombre')?.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && this.value.trim() === '') {
+                window.location.href = '@Url.Action("Index", "OrdenesDeTrabajo")';
+            }
+        });
+
+
+        document.querySelectorAll('a.btn-outline-warning').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if (this.textContent.trim().toLowerCase().includes('cancelar') &&
+                    !confirm('¿Está seguro que desea cancelar esta orden?')) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+}

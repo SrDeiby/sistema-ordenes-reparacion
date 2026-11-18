@@ -1,0 +1,278 @@
+﻿@model SistemaDeOrdenesDeReparacion.Model.EditarOrdenesDeTrabajoViewModel
+
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .container-custom {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .header-section {
+        background: linear-gradient(45deg, #4a5568, #2d3748);
+        color: white;
+        padding: 20px;
+        margin-bottom: 30px;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+        .header-section h2 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+    .form-card {
+        background-color: white;
+        border-radius: 8px;
+        padding: 30px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+        .form-group label {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+            .form-group label i {
+                margin-right: 8px;
+                color: #ff5722;
+            }
+
+    .form-control {
+        border: 2px solid #e2e8f0;
+        border-radius: 6px;
+        padding: 12px 15px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+    }
+
+        .form-control:focus {
+            border-color: #ff5722;
+            box-shadow: 0 0 0 3px rgba(255, 87, 34, 0.1);
+            outline: none;
+        }
+
+    .text-danger {
+        color: #e53e3e !important;
+        font-size: 14px;
+        margin-top: 5px;
+        display: block;
+    }
+
+    .btn-primary {
+        background: linear-gradient(45deg, #ff5722, #ff7043);
+        border: none;
+        color: white;
+        padding: 12px 30px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        margin-right: 10px;
+    }
+
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #e64a19, #ff5722);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+    .back-btn {
+        background: linear-gradient(45deg, #4a5568, #2d3748);
+        color: white;
+        padding: 12px 25px;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: bold;
+        display: inline-flex;
+        align-items: center;
+        transition: all 0.3s ease;
+        border: none;
+        font-size: 16px;
+    }
+
+        .back-btn:hover {
+            background: linear-gradient(45deg, #2d3748, #1a202c);
+            color: white;
+            text-decoration: none;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .back-btn i {
+            margin-right: 8px;
+        }
+
+    .button-container {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .readonly-field {
+        background-color: #f7fafc;
+        border: 2px solid #e2e8f0;
+        color: #4a5568;
+        cursor: not-allowed;
+    }
+
+    .form-row {
+        display: block;
+    }
+
+        .form-row .form-group {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+</style>
+
+<div class="container-custom">
+    <div class="header-section">
+        <h2><i class="fas fa-edit"></i> Editar Orden de Trabajo</h2>
+        <p class="mb-0">Modificar los detalles de la orden de reparación</p>
+    </div>
+
+    <div class="form-card">
+        <form asp-action="Editar" method="post">
+            @Html.AntiForgeryToken()
+
+             @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            <strong>Errores de validación detectados:</strong>
+            <ul>
+                @foreach (var key in ViewData.ModelState.Keys)
+                {
+                    var entry = ViewData.ModelState[key];
+                    foreach (var error in entry.Errors)
+                    {
+                        <li><strong>@key:</strong> @error.ErrorMessage</li>
+                    }
+                }
+            </ul>
+        </div>
+    }
+
+
+            @* ID oculto *@
+            <input type="hidden" asp-for="Orden.Id" />
+
+            <div class="form-group">
+                <label><i class="fas fa-user"></i> Cliente</label>
+                <select asp-for="Orden.IdCliente" asp-items="Model.Clientes" class="form-control"></select>
+                <span asp-validation-for="Orden.IdCliente" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-calendar-alt"></i> Fecha Aproximada De Finalización</label>
+                <input asp-for="Orden.FechaFinalizacion" class="form-control" id="fechaFinalizacion" type="date" />
+                <span asp-validation-for="Orden.FechaFinalizacion" class="text-danger"></span>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label><i class="fas fa-car"></i> Tipo de Vehículo</label>
+                    <select asp-for="Orden.TipoDeVehiculo" asp-items="Model.TiposVehiculo" class="form-control"></select>
+                    <span asp-validation-for="Orden.TipoDeVehiculo" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-gas-pump"></i> Tipo de Combustión</label>
+                    <select asp-for="Orden.TipoDeCombustionInterna" asp-items="Model.TiposCombustion" class="form-control"></select>
+                    <span asp-validation-for="Orden.TipoDeCombustionInterna" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label><i class="fas fa-industry"></i> Marca</label>
+                    <input asp-for="Orden.Marca" class="form-control" placeholder="Ej: Toyota, Honda, Ford..." />
+                    <span asp-validation-for="Orden.Marca" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-tag"></i> Modelo</label>
+                    <input asp-for="Orden.Modelo" class="form-control" placeholder="Ej: Corolla, Civic, Focus..." />
+                    <span asp-validation-for="Orden.Modelo" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-calendar"></i> Año de Fabricación</label>
+                <input asp-for="Orden.AñoFabricacion" class="form-control"  placeholder="Ej: 2020" />
+                <span asp-validation-for="Orden.AñoFabricacion" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-clipboard-list"></i> Descripción del Problema</label>
+                <textarea asp-for="Orden.DescripcionProblema" class="form-control" rows="4"></textarea>
+                <span asp-validation-for="Orden.DescripcionProblema" class="text-danger"></span>
+            </div>
+
+            <div class="button-container">
+                <button type="submit" class="btn-primary">
+                    <i class="fas fa-save"></i> Guardar Cambios
+                </button>
+                <a href="@Url.Action("Index", "OrdenesDeTrabajo")" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Volver a Órdenes
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const fechaInput = document.getElementById("fechaFinalizacion");
+            fechaInput.addEventListener("change", function () {
+                const sel = new Date(this.value),
+                      hoy = new Date();
+                hoy.setHours(0,0,0,0);
+                if (sel <= hoy) {
+                    alert("⚠ La fecha de finalización debe ser posterior a hoy");
+                    this.value = "";
+                }
+            });
+        });
+    </script>
+}
+<script>
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        const firstInput = document.querySelector('.form-control');
+        if (firstInput) {
+            firstInput.focus();
+        }
+
+       
+        const inputs = document.querySelectorAll('.form-control');
+        inputs.forEach(input => {
+            input.addEventListener('blur', function() {
+                if (this.hasAttribute('required') && !this.value.trim()) {
+                    this.style.borderColor = '#e53e3e';
+                } else {
+                    this.style.borderColor = '#e2e8f0';
+                }
+            });
+        });
+    });
+</script>

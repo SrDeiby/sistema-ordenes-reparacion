@@ -1,0 +1,161 @@
+﻿@model SistemaDeOrdenesDeReparacion.Model.CancelarOrdenViewModel
+
+@{
+    ViewData["Title"] = "Cancelar Orden";
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: #f5f5f5;
+        margin: 0;
+        padding: 0;
+    }
+
+    .page-container {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 0 15px;
+    }
+
+    .card {
+        border: none;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    .card-header {
+        background: linear-gradient(45deg, #ff6a00, #ee0979);
+        color: white;
+        padding: 20px;
+    }
+
+        .card-header h4 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+    .card-body {
+        background: #ffffff;
+        padding: 30px;
+    }
+
+    .alert-warning {
+        background: #fff3cd;
+        color: #856404;
+        border: none;
+        border-radius: 8px;
+        padding: 15px;
+    }
+
+    .order-info h6 {
+        margin-bottom: 5px;
+        font-weight: 600;
+        color: #1a1a1a;
+    }
+
+    .order-info p {
+        margin: 0 0 15px;
+        color: #333;
+        font-weight: bold;
+    }
+
+    .form-label strong {
+        color: #d10024;
+    }
+
+    .form-control, textarea.form-control {
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        padding: 10px 12px;
+        font-size: 1rem;
+    }
+
+    .text-danger {
+        color: #842029;
+    }
+
+    .btn-danger {
+        background: linear-gradient(45deg, #ff416c, #ff4b2b);
+        border: none;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 10px;
+        font-weight: bold;
+        transition: opacity 0.3s;
+    }
+
+        .btn-danger:hover {
+            opacity: .9;
+        }
+
+    .btn-secondary {
+        background: linear-gradient(to right, #1e1e1e, #292929);
+        border: none;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 10px;
+        font-weight: bold;
+        transition: opacity 0.3s;
+    }
+
+        .btn-secondary:hover {
+            opacity: .85;
+        }
+</style>
+
+<div class="page-container">
+    <div class="card">
+        <div class="card-header">
+            <h4><i class="fas fa-exclamation-triangle me-2"></i>Cancelar Orden de Trabajo</h4>
+        </div>
+        <div class="card-body">
+            <div class="alert-warning">
+                <strong>¡Atención!</strong> Esta acción no se puede deshacer. La orden será marcada como cancelada.
+            </div>
+            <hr />
+
+            <form asp-action="Cancelar" method="post">
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.Id)
+                @Html.HiddenFor(m => m.NumeroOrden)
+                @Html.HiddenFor(m => m.Cliente)
+                @Html.HiddenFor(m => m.Descripcion)
+
+                <div class="mb-3">
+                    <label asp-for="MotivoCancelacion" class="form-label"><strong>Motivo de Cancelación *</strong></label>
+                    <textarea asp-for="MotivoCancelacion"
+                              class="form-control"
+                              rows="4"
+                              placeholder="Ingrese el motivo por el cual se cancela esta orden..."
+                              required></textarea>
+                    <span asp-validation-for="MotivoCancelacion" class="text-danger"></span>
+                    <small class="form-text text-muted">
+                        Este campo es obligatorio. Explique brevemente por qué se cancela la orden.
+                    </small>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn-danger me-3">
+                        <i class="fas fa-times me-1"></i> Cancelar Orden
+                    </button>
+                    <a href="@Url.Action("Index")" class="btn-secondary">
+                        <i class="fas fa-arrow-left me-1"></i> Regresar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script>
+        document.querySelector('form').addEventListener('submit', function(e) {
+            if (!confirm('¿Está seguro que desea cancelar esta orden? Esta acción no se puede deshacer.')) {
+                e.preventDefault();
+            }
+        });
+    </script>
+}

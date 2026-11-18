@@ -1,0 +1,142 @@
+﻿@model SistemaDeOrdenesDeReparacion.Model.Cliente
+
+@{
+    ViewData["Title"] = "Editar Cliente";
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .page-container {
+        max-width: 600px;
+        margin: 0 auto;
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+
+    .page-header {
+        background: linear-gradient(45deg, #dc2626, #f97316);
+        color: white;
+        text-align: center;
+        padding: 20px;
+        margin: -30px -30px 30px -30px;
+        border-radius: 20px 20px 0 0;
+    }
+
+        .page-header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 6px;
+    }
+
+    input.form-control {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+    }
+
+        input.form-control:focus {
+            border-color: #f97316;
+            outline: none;
+        }
+
+    .btn-primary {
+        background: linear-gradient(45deg, #dc2626, #f97316);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: opacity 0.3s;
+    }
+
+        .btn-primary:hover {
+            opacity: .9;
+        }
+
+    .btn-secondary {
+        background: linear-gradient(to right, #1e1e1e, #292929);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: bold;
+        text-decoration: none;
+        margin-left: 15px;
+        transition: opacity 0.3s;
+    }
+
+        .btn-secondary:hover {
+            opacity: .85;
+        }
+
+    .text-danger {
+        color: #dc2626;
+        margin-top: 4px;
+    }
+</style>
+
+<div class="page-container">
+    <div class="page-header">
+        <h1>Editar Cliente</h1>
+    </div>
+
+    <form asp-action="Edit" method="post">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="CorreoElectronico" /> 
+
+
+        <div class="form-group">
+            <label asp-for="Identificacion"></label>
+            <input asp-for="Identificacion" class="form-control" />
+            <span asp-validation-for="Identificacion" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Nombre"></label>
+            <input asp-for="Nombre" class="form-control" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Apellidos"></label>
+            <input asp-for="Apellidos" class="form-control" />
+            <span asp-validation-for="Apellidos" class="text-danger"></span>
+        </div>
+
+        <div class="d-flex justify-content-center mt-4">
+            <button type="submit" class="btn-primary">Guardar</button>
+            <a asp-action="Index" class="btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

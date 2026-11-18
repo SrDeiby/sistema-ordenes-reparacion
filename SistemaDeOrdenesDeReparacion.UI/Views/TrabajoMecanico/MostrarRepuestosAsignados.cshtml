@@ -1,0 +1,116 @@
+﻿@model IEnumerable<SistemaDeOrdenesDeReparacion.Model.OrdenesDeTrabajoInventarioDeRepuestos>
+
+@{
+    ViewData["Title"] = "Repuestos Asignados";
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: #f5f5f5;
+        margin: 0;
+        padding: 0;
+    }
+
+    .page-container {
+        max-width: 900px;
+        margin: 40px auto;
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+
+    .page-header {
+        background: linear-gradient(to right, #1a1a1a, #3d3d3d);
+        color: white;
+        text-align: center;
+        padding: 20px;
+    }
+
+        .page-header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+    .page-body {
+        padding: 30px;
+    }
+
+    .btn-back {
+        display: inline-block;
+        background: linear-gradient(to right, #1e1e1e, #292929);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-weight: bold;
+        text-decoration: none;
+        transition: opacity 0.3s;
+    }
+
+        .btn-back:hover {
+            opacity: .85;
+        }
+
+    .table-container {
+        margin-top: 20px;
+        overflow-x: auto;
+    }
+
+    table.styled-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        table.styled-table thead {
+            background: linear-gradient(to right, #1a1a1a, #3d3d3d);
+        }
+
+            table.styled-table thead th {
+                color: white;
+                padding: 12px;
+                text-align: left;
+            }
+
+        table.styled-table tbody tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        table.styled-table tbody td {
+            padding: 12px;
+            vertical-align: middle;
+        }
+</style>
+
+<div class="page-container">
+    <div class="page-header">
+        <h1>Repuestos Asignados a la Orden #@ViewBag.IdOrden</h1>
+    </div>
+    <div class="page-body">
+        <a asp-action="Index" class="btn-back">← Regresar al menú</a>
+
+        <div class="table-container">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Precio Unitario</th>
+                        <th>Cantidad</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.InventarioDeRepuesto?.Nombre</td>
+                            <td>₡@item.InventarioDeRepuesto?.PrecioUnitario.ToString("N2")</td>
+                            <td>@item.Cantidad</td>
+                            <td>₡@item.Total.ToString("N2")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

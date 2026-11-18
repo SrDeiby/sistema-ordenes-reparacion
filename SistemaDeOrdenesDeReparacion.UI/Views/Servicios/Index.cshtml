@@ -1,0 +1,232 @@
+﻿@model IEnumerable<SistemaDeOrdenesDeReparacion.Model.InventarioDeServicios>
+@{
+    ViewData["Title"] = "Sistema De agregamiento de servicios";
+    var rol = ViewContext.HttpContext.Session.GetString("RolUsuario");
+    var nombreFiltro = Context.Request.Query["nombre"].ToString();
+    var filtroActivo = !string.IsNullOrWhiteSpace(nombreFiltro);
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 20px;
+    }
+
+    
+    .container-custom {
+        max-width: 1000px;
+        margin: 0 auto;
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+
+    
+    .header-section {
+        background: linear-gradient(45deg, #dc2626, #f97316);
+        color: white;
+        text-align: center;
+        padding: 20px;
+    }
+
+        .header-section h1 {
+            margin: 0;
+            font-size: 1.75rem;
+            font-weight: bold;
+        }
+
+    
+    .page-body {
+        padding: 30px;
+    }
+
+   
+    .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 20px;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .filter-group {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+        .filter-group input[type="text"] {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            width: 200px;
+        }
+
+        .filter-group input[type="submit"] {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(45deg, #dc2626, #f97316);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+            .filter-group input[type="submit"]:hover {
+                opacity: .9;
+            }
+
+    
+    .btn-create {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        background: linear-gradient(45deg, #1e1e1e, #292929);
+        color: white;
+        font-weight: bold;
+        text-decoration: none;
+        transition: opacity 0.3s;
+    }
+
+        .btn-create:hover {
+            opacity: .85;
+        }
+
+    
+    .services-table {
+       
+        overflow-x: auto;
+    }
+
+        .services-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .services-table thead {
+            background: linear-gradient(45deg, #2c3e50, #34495e);
+        }
+
+            .services-table thead th {
+                color: white;
+                padding: 12px;
+                text-align: left;
+            }
+
+        .services-table tbody tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        .services-table tbody td {
+            padding: 12px;
+            vertical-align: middle;
+        }
+
+   
+    .action-links a {
+      
+        color: white;
+        background: linear-gradient(45deg, #dc2626, #f97316);
+        padding: 6px 12px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: opacity 0.3s;
+    }
+
+        .action-links a:hover {
+            opacity: .9;
+        }
+
+    
+    .back-link {
+        display: inline-block;
+        margin-top: 20px;
+        color: #333;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .button-group {
+        display: flex;
+        gap: 16px; 
+        flex-wrap: wrap;
+        margin-top: 15px;
+    }
+</style>
+
+
+<div class="container-custom">
+    <div class="header-section">
+        <h1><i class="fas fa-cogs"></i> Sistema de Agregamiento de Servicios</h1>
+    </div>
+
+    <div class="page-body">
+
+        <div class="actions">
+            <form asp-controller="Servicios" asp-action="Index" method="get" class="filter-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" value="@nombreFiltro" placeholder="Filtrar..." />
+                <input type="submit" value="Filtrar" />
+                @if (filtroActivo)
+                {
+                    <a asp-action="Index" class="btn-create">Limpiar</a>
+                }
+            </form>
+
+            <div class="button-group">
+                <a asp-action="Create" class="btn-create">
+                    <i class="fas fa-plus"></i> Crear nuevo servicio
+                </a>
+
+                @if (rol == "administrador")
+                {
+                    <a asp-controller="Login" asp-action="VistaAdministrador" class="btn-create">Volver al menú</a>
+                }
+                else if (rol == "mecanico")
+                {
+                    <a asp-controller="Mecanico" asp-action="VistaMecanico" class="btn-create">Volver al menú</a>
+                }
+                else
+                {
+                    <a asp-controller="Login" asp-action="Index" class="btn-create">Iniciar sesión</a>
+                }
+            </div>
+        </div>
+
+        <div class="services-table">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-tag"></i> @Html.DisplayNameFor(model => model.Nombre)</th>
+                        <th><i class="fas fa-file-alt"></i> @Html.DisplayNameFor(model => model.Descripcion)</th>
+                        <th><i class="fas fa-dollar-sign"></i> @Html.DisplayNameFor(model => model.Precio)</th>
+                        <th><i class="fas fa-tools"></i> Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><strong>@Html.DisplayFor(modelItem => item.Nombre)</strong></td>
+                            <td>@Html.DisplayFor(modelItem => item.Descripcion)</td>
+                            <td class="price-cell">₡@Html.DisplayFor(modelItem => item.Precio)</td>
+                            <td class="action-links">
+                                <a asp-action="Edit" asp-route-id="@item.Id">
+                                    <i class="fas fa-edit"></i> Editar
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,197 @@
+﻿@model IEnumerable<SistemaDeOrdenesDeReparacion.Model.OrdenesDeTrabajos>
+
+@{
+    ViewData["Title"] = "Órdenes Canceladas";
+    var rol = ViewContext.HttpContext.Session.GetString("RolUsuario");
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: #f5f5f5;
+        margin: 0;
+        padding: 0;
+    }
+
+    .page-container {
+        max-width: 1200px;
+        margin: 40px auto;
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+
+    .page-header {
+        background: linear-gradient(to right, #1a1a1a, #3d3d3d);
+        color: white;
+        text-align: center;
+        padding: 20px;
+    }
+
+        .page-header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+    .page-body {
+        padding: 30px;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .btn-back {
+        background: linear-gradient(to right, #1e1e1e, #292929);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-weight: bold;
+        text-decoration: none;
+        transition: opacity 0.3s;
+    }
+
+        .btn-back:hover {
+            opacity: .85;
+        }
+
+    .filter-form input[type="text"] {
+        padding: 8px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        width: 200px;
+    }
+
+    .filter-form input[type="submit"] {
+        margin-left: 8px;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 8px;
+        background: linear-gradient(45deg, #ff416c, #ff4b2b);
+        color: white;
+        font-weight: bold;
+        transition: opacity 0.3s;
+    }
+
+        .filter-form input[type="submit"]:hover {
+            opacity: .9;
+        }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    table.styled-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        table.styled-table thead {
+            background: linear-gradient(to right, #1a1a1a, #3d3d3d);
+        }
+
+            table.styled-table thead th {
+                color: white;
+                padding: 12px;
+                text-align: left;
+            }
+
+        table.styled-table tbody tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        table.styled-table tbody td {
+            padding: 12px;
+            vertical-align: middle;
+        }
+
+    .table-actions a {
+        display: inline-block;
+        padding: 8px 14px;
+        border-radius: 8px;
+        color: white;
+        font-size: 0.9rem;
+        text-decoration: none;
+        background: linear-gradient(45deg, #ff6a00, #ee0979);
+        transition: opacity 0.3s;
+    }
+
+        .table-actions a:hover {
+            opacity: .9;
+        }
+</style>
+
+<div class="page-container">
+    <div class="page-header">
+        <h1>Órdenes Canceladas</h1>
+    </div>
+    <div class="page-body">
+        <div class="actions">
+            @if (rol == "administrador")
+            {
+                <a asp-controller="Login" asp-action="VistaAdministrador" class="btn-back">
+                    <i class="fas fa-arrow-left"></i> Volver al Menú
+                </a>
+            }
+            else if (rol == "mecanico")
+            {
+                <a asp-controller="Mecanico" asp-action="VistaMecanico" class="btn-back">
+                    <i class="fas fa-arrow-left"></i> Volver al Menú
+                </a>
+            }
+            else
+            {
+              
+                <a asp-controller="Login" asp-action="Index" class="btn-back">
+                    <i class="fas fa-arrow-left"></i> Iniciar Sesión
+                </a>
+            }
+            <form class="filter-form" asp-controller="TrabajoMecanico" asp-action="OrdenesCanceladas" method="get">
+                <label for="nombre">Cliente:</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Nombre del cliente" />
+                <input type="submit" value="Filtrar" />
+            </form>
+        </div>
+        <div class="table-container">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Identificación Cliente</th>
+                        <th>Nombre del Cliente</th>
+                        <th>Apellidos del Cliente</th>
+                        <th>Tipo de Vehículo</th>
+                        <th>Marca</th>
+                        <th>Modelo</th>
+                        <th>Tipo de Combustión</th>
+                        <th>Año de Fabricación</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Cliente.Identificacion</td>
+                            <td>@item.Cliente.Nombre</td>
+                            <td>@item.Cliente.Apellidos</td>
+                            <td>@item.TipoDeVehiculo</td>
+                            <td>@item.Marca</td>
+                            <td>@item.Modelo</td>
+                            <td>@item.TipoDeCombustionInterna</td>
+                            <td>@item.AñoDeFabricacion</td>
+                            <td class="table-actions">
+                                <a asp-action="MostrarDetalleDeOrdenCancelada" asp-route-idOrden="@item.Id">
+                                    Detalle
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

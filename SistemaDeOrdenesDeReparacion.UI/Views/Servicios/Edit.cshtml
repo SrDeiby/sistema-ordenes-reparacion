@@ -1,0 +1,116 @@
+﻿@model SistemaDeOrdenesDeReparacion.Model.InventarioDeServicios
+
+@{
+    ViewData["Title"] = "Editar";
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #f4f4f4;
+    }
+
+    .edit-container {
+        max-width: 700px;
+        margin: 50px auto;
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        padding: 30px;
+    }
+
+    .header {
+        background: linear-gradient(to right, #1a1a1a, #3d3d3d);
+        color: white;
+        text-align: center;
+        padding: 20px;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        font-size: 24px;
+    }
+
+    .highlight {
+        color: #ff4b2b;
+    }
+
+    label {
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        margin-bottom: 10px;
+    }
+
+    .text-danger {
+        font-size: 14px;
+    }
+
+    .btn-save {
+        background: linear-gradient(to right, #ff416c, #ff4b2b);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 10px;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+        .btn-save:hover {
+            opacity: 0.9;
+        }
+
+    .btn-secondary {
+        background-color: #444;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 10px;
+        margin-top: 20px;
+        text-decoration: none;
+        font-weight: bold;
+        display: inline-block;
+    }
+</style>
+
+<div class="edit-container">
+    <div class="header">
+        <span class="highlight">Editar</span> Servicio
+    </div>
+
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+
+        <div class="form-group">
+            <label asp-for="Nombre" class="control-label"></label>
+            <input asp-for="Nombre" class="form-control" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Descripcion" class="control-label"></label>
+            <input asp-for="Descripcion" class="form-control" />
+            <span asp-validation-for="Descripcion" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Precio" class="control-label"></label>
+            <input asp-for="Precio" class="form-control" type="number"/>
+            <span asp-validation-for="Precio" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Guardar Cambios" class="btn-save" />
+        </div>
+    </form>
+
+    <a asp-action="Index" class="btn-secondary">Volver a la Lista</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,213 @@
+﻿@model SistemaDeOrdenesDeReparacion.Model.CrearOrdenViewModel
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        padding: 20px;
+        margin: 0;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .header {
+        background: linear-gradient(45deg, #dc2626, #f97316);
+        color: white;
+        padding: 20px;
+        margin: -30px -30px 30px -30px;
+        border-radius: 10px 10px 0 0;
+        text-align: center;
+    }
+
+    .form-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .full-width {
+        grid-column: 1 / -1;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    input, select, textarea {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+    input:focus, select:focus, textarea:focus {
+        border-color: #f97316;
+        outline: none;
+    }
+
+    textarea {
+        height: 100px;
+        resize: vertical;
+    }
+
+    .btn {
+        padding: 12px 25px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: bold;
+        text-decoration: none;
+        display: inline-block;
+        margin: 10px 5px;
+        cursor: pointer;
+    }
+
+    .btn-primary {
+        background: linear-gradient(45deg, #dc2626, #f97316);
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(45deg, #b91c1c, #ea580c);
+    }
+
+    .btn-secondary {
+        background: #333;
+        color: white;
+    }
+
+    .btn-secondary:hover {
+        background: #555;
+    }
+
+    .field-validation-error {
+        color: #dc2626;
+        font-size: 12px;
+        margin-top: 3px;
+    }
+
+    .input-validation-error {
+        border-color: #dc2626;
+    }
+
+    .actions {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    @@media (max-width: 768px) {
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+</style>
+
+<div class="container">
+    <div class="header">
+        <h2>Nueva Orden de Reparación</h2>
+    </div>
+
+    <form asp-action="Crear" method="post">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-3"></div>
+
+        <div class="form-grid">
+            <div class="form-group">
+                <label asp-for="Orden.IdCliente">Cliente</label>
+                <select asp-for="Orden.IdCliente" asp-items="Model.Clientes">
+                    <option value="">Seleccionar cliente...</option>
+                </select>
+                <span asp-validation-for="Orden.IdCliente" class="field-validation-error"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Orden.FechaFinalizacion">Fecha Aproximada de finalización</label>
+                <input asp-for="Orden.FechaFinalizacion" type="date" id="fechaFinalizacion" />
+                <span asp-validation-for="Orden.FechaFinalizacion" class="field-validation-error"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Orden.TipoDeVehiculo">Tipo de vehículo</label>
+                <select asp-for="Orden.TipoDeVehiculo" asp-items="Model.TiposVehiculo">
+                    <option value="">Seleccionar tipo...</option>
+                </select>
+                <span asp-validation-for="Orden.TipoDeVehiculo" class="field-validation-error"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Orden.TipoDeCombustionInterna">Tipo de combustión</label>
+                <select asp-for="Orden.TipoDeCombustionInterna" asp-items="Model.TiposCombustion">
+                    <option value="">Seleccionar tipo...</option>
+                </select>
+                <span asp-validation-for="Orden.TipoDeCombustionInterna" class="field-validation-error"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Orden.Marca">Marca</label>
+                <input asp-for="Orden.Marca" />
+                <span asp-validation-for="Orden.Marca" class="field-validation-error"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Orden.Modelo">Modelo</label>
+                <input asp-for="Orden.Modelo" />
+                <span asp-validation-for="Orden.Modelo" class="field-validation-error"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Orden.AñoFabricacion">Año de fabricación</label>
+                <select asp-for="Orden.AñoFabricacion" class="form-control">
+                    <option value="">-- Seleccionar año --</option>
+                    @foreach (var year in Enumerable.Range(1900, 126)) 
+                    {
+                        <option value="@year" selected="@(Model.Orden.AñoFabricacion == year.ToString())">
+                            @year
+                        </option>
+                    }
+                </select>
+                <span asp-validation-for="Orden.AñoFabricacion" class="field-validation-error"></span>
+            </div>
+            <div class="form-group full-width">
+                <label asp-for="Orden.DescripcionProblema">Descripción del problema</label>
+                <textarea asp-for="Orden.DescripcionProblema"></textarea>
+                <span asp-validation-for="Orden.DescripcionProblema" class="field-validation-error"></span>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button type="submit" class="btn-primary">Guardar</button>
+            <a href="/OrdenesDeTrabajo/Index" class="btn-secondary">Volver al menú</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const fechaInput = document.getElementById("fechaFinalizacion");
+            fechaInput.addEventListener("change", function () {
+                const sel = new Date(this.value),
+                      hoy = new Date();
+                hoy.setHours(0,0,0,0);
+                if (sel <= hoy) {
+                    alert("⚠ La fecha de finalización debe ser posterior a hoy");
+                    this.value = "";
+                }
+            });
+        });
+    </script>
+}

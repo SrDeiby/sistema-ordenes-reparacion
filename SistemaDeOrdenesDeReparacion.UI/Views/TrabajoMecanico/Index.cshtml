@@ -1,0 +1,235 @@
+﻿@model IEnumerable<SistemaDeOrdenesDeReparacion.Model.OrdenesDeTrabajos>
+
+@{
+    ViewData["Title"] = "Órdenes en Proceso";
+    var rol = ViewContext.HttpContext.Session.GetString("RolUsuario");
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: #f5f9fa;
+        margin: 0;
+        padding: 0;
+    }
+
+    .page-container {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    .page-header h1 {
+        text-align: center;
+        font-size: 2rem;
+        color: #1a1a1a;
+        margin-bottom: 20px;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+        .actions .btn-back {
+            background: #1e1e1e;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+            .actions .btn-back:hover {
+                opacity: .85;
+            }
+
+    .filter-form {
+        display: flex;
+        align-items: center;
+    }
+
+        .filter-form label {
+            margin-right: 8px;
+            font-weight: 600;
+        }
+
+        .filter-form input[type="text"] {
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            width: 200px;
+        }
+
+        .filter-form input[type="submit"] {
+            margin-left: 8px;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+            .filter-form input[type="submit"]:hover {
+                opacity: .9;
+            }
+
+    .table-container {
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        overflow-x: auto;
+        padding: 10px 0;
+    }
+
+    table.styled-table {
+        width: 100%;
+        min-width: 1200px;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+    }
+
+        table.styled-table thead {
+            background: linear-gradient(to right, #1a1a1a, #3d3d3d);
+        }
+
+            table.styled-table thead th {
+                color: #fff;
+                padding: 10px;
+                text-align: left;
+                white-space: nowrap;
+            }
+
+        table.styled-table tbody tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        table.styled-table tbody td {
+            padding: 10px;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+    
+    .table-actions {
+        display: flex;
+        
+        flex-wrap: nowrap;
+        gap: 6px;
+       
+        overflow-x: auto;
+    }
+
+        .table-actions a {
+            display: inline-block;
+            padding: 8px 12px;
+            
+            border: none;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            white-space: nowrap;
+        }
+
+            .table-actions a.btn-orange {
+                background: linear-gradient(45deg, #ff416c, #ff4b2b);
+                color: #fff;
+            }
+
+            .table-actions a.btn-dark {
+                background: linear-gradient(45deg, #1e1e1e, #3d3d3d);
+                color: #fff;
+            }
+
+            .table-actions a:hover {
+                opacity: .85;
+            }
+</style>
+
+<div class="page-container">
+    <div class="page-header">
+        <h1>Órdenes en Proceso</h1>
+    </div>
+
+    <div class="actions">
+        @if (rol == "administrador")
+        {
+            <a asp-controller="Login" asp-action="VistaAdministrador" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Volver al Menú
+            </a>
+        }
+        else if (rol == "mecanico")
+        {
+            <a asp-controller="Mecanico" asp-action="VistaMecanico" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Volver al Menú
+            </a>
+        }
+        else
+        {
+            <a asp-controller="Login" asp-action="Index" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Iniciar Sesión
+            </a>
+        }
+
+        <form class="filter-form" asp-controller="TrabajoMecanico" asp-action="Index" method="get">
+            <label for="nombre">Cliente:</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Nombre del cliente" />
+            <input type="submit" value="Filtrar" />
+        </form>
+    </div>
+
+    <div class="table-container">
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Identificación Cliente</th>
+                    <th>Nombre del Cliente</th>
+                    <th>Apellidos del Cliente</th>
+                    <th>Identificación del Mecánico Asignado</th>
+                    <th>Nombre del Mecánico Asignado</th>
+                    <th>Apellidos del Mecánico Asignado</th>
+                    <th>Tipo de Vehículo</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Tipo Combustión</th>
+                    <th>Año de Fabricación</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Cliente.Identificacion</td>
+                        <td>@item.Cliente.Nombre</td>
+                        <td>@item.Cliente.Apellidos</td>
+                        <td>@item.Mecanico.Identificacion</td>
+                        <td>@item.Mecanico.Nombre</td>
+                        <td>@item.Mecanico.Apellidos</td>
+                        <td>@item.TipoDeVehiculo</td>
+                        <td>@item.Marca</td>
+                        <td>@item.Modelo</td>
+                        <td>@item.TipoDeCombustionInterna</td>
+                        <td>@item.AñoDeFabricacion</td>
+                        <td class="table-actions">
+                            <a asp-action="MostrarServicios" asp-route-idOrden="@item.Id" class="btn-orange">Asignar Servicios</a>
+                            <a asp-action="MostrarRepuestos" asp-route-idOrden="@item.Id" class="btn-orange">Asignar Repuestos</a>
+                            <a asp-action="MostrarServiciosAsignados" asp-route-idOrden="@item.Id" class="btn-dark">Ver Servicios</a>
+                            <a asp-action="MostrarRepuestosAsignados" asp-route-idOrden="@item.Id" class="btn-dark">Ver Repuestos</a>
+                            <a asp-action="VerResumen" asp-route-idOrden="@item.Id" class="btn-orange">Total</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

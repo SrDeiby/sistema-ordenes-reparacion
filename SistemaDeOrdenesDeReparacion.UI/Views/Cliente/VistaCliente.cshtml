@@ -1,0 +1,107 @@
+﻿@model SistemaDeOrdenesDeReparacion.Model.Cliente
+
+@{
+    ViewData["Title"] = "Panel de Cliente";
+}
+
+<style>
+    .panel-container {
+        max-width: 700px;
+        margin: 2rem auto;
+        padding: 2rem;
+        border-radius: 15px;
+        background: #fff;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .titulo {
+        text-align: center;
+        font-size: 2rem;
+        color: #333;
+        margin-bottom: 1.5rem;
+    }
+
+    .cliente-info {
+        background: #f9f9f9;
+        padding: 1.5rem;
+        border-radius: 10px;
+        margin-bottom: 2rem;
+    }
+
+        .cliente-info h2 {
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #444;
+        }
+
+    .campo {
+        margin: 0.5rem 0;
+    }
+
+        .campo label {
+            font-weight: bold;
+            color: #111;
+            display: block;
+        }
+
+        .campo span {
+            color: #e14a4a;
+            font-size: 1rem;
+        }
+
+    .acciones {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .boton {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        font-weight: bold;
+        border-radius: 10px;
+        text-decoration: none;
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    .boton-negro {
+        background: linear-gradient(90deg, #232526, #414345);
+    }
+
+    .boton-naranja {
+        background: linear-gradient(90deg, #f2994a, #f2c94c);
+    }
+
+    .boton-rojo {
+        background: linear-gradient(90deg, #ff416c, #ff4b2b);
+    }
+
+    .boton:hover {
+        opacity: 0.9;
+    }
+</style>
+
+<div class="panel-container">
+    <h1 class="titulo">Bienvenido(a)</h1>
+
+    <div class="cliente-info">
+        <h2>@ViewBag.NombreCompleto</h2>
+        <div class="campo">
+            <label>Identificación:</label>
+            <span>@Model.Identificacion</span>
+        </div>
+        <div class="campo">
+            <label>Correo Electrónico:</label>
+            <span>@Model.CorreoElectronico</span>
+        </div>
+    </div>
+
+    <div class="acciones">
+        <a class="boton boton-negro" href="@Url.Action("VerificarContrasena", "Cliente", new { identificacion = Model.Identificacion })">Cambiar Contraseña</a>
+        <a class="boton boton-naranja" href="/TrabajoMecanico/OrdenesClientes">Ver Órdenes</a>
+        
+    </div>
+</div>

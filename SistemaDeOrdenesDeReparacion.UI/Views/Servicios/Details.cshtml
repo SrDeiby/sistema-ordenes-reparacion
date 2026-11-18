@@ -1,0 +1,112 @@
+﻿@model SistemaDeOrdenesDeReparacion.Model.InventarioDeServicios
+
+@{
+    ViewData["Title"] = "Detalles";
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #f4f4f4;
+    }
+
+    .details-container {
+        max-width: 700px;
+        margin: 50px auto;
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        padding: 30px;
+    }
+
+    .header {
+        background: linear-gradient(to right, #1a1a1a, #3d3d3d);
+        color: white;
+        text-align: center;
+        padding: 20px;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        font-size: 24px;
+    }
+
+    .highlight {
+        color: #ff4b2b;
+    }
+
+    dt {
+        font-weight: bold;
+        color: #333;
+        padding-top: 10px;
+    }
+
+    dd {
+        color: #555;
+        margin-bottom: 10px;
+    }
+
+    .btn-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .btn-red {
+        background: linear-gradient(to right, #ff416c, #ff4b2b);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 10px;
+        margin: 0 10px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background 0.3s;
+    }
+
+        .btn-red:hover {
+            opacity: 0.9;
+        }
+
+    .btn-secondary {
+        background-color: #444;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 10px;
+        margin: 0 10px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+</style>
+
+<div class="details-container">
+    <div class="header">
+        <span class="highlight">Detalles</span> del Servicio
+    </div>
+
+    <dl class="row">
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Descripcion)
+        </dd>
+
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Precio)
+        </dt>
+        <dd class="col-sm-8">
+            ₡@Html.DisplayFor(model => model.Precio)
+        </dd>
+    </dl>
+
+    <div class="btn-container">
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn-red">Editar</a>
+        <a asp-action="Index" class="btn-secondary">Volver</a>
+    </div>
+</div>

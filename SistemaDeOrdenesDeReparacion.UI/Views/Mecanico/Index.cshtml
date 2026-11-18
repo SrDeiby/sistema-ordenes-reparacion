@@ -1,0 +1,196 @@
+﻿@model IEnumerable<SistemaDeOrdenesDeReparacion.Model.Mecanico>
+
+@{
+    ViewData["Title"] = "Mecánicos";
+    var nombreFiltro = Context.Request.Query["nombre"].ToString();
+    var filtroActivo = !string.IsNullOrWhiteSpace(nombreFiltro);
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: #f5f5f5;
+        margin: 0;
+        padding: 0;
+    }
+
+    .page-container {
+        max-width: 1000px;
+        margin: 40px auto;
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+
+    .page-header {
+        background: linear-gradient(to right, #1a1a1a, #3d3d3d);
+        color: white;
+        text-align: center;
+        padding: 20px;
+    }
+
+        .page-header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+    .page-body {
+        padding: 30px;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .filter-form input[type="text"] {
+        padding: 8px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        width: 200px;
+    }
+
+    .filter-form input[type="submit"] {
+        margin-left: 8px;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 8px;
+        background: linear-gradient(45deg, #ff416c, #ff4b2b);
+        color: white;
+        font-weight: bold;
+        transition: opacity 0.3s;
+    }
+
+        .filter-form input[type="submit"]:hover {
+            opacity: .9;
+        }
+
+    .btn-create {
+        background: linear-gradient(45deg, #ff416c, #ff4b2b);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-weight: bold;
+        text-decoration: none;
+        transition: opacity 0.3s;
+    }
+
+        .btn-create:hover {
+            opacity: .9;
+        }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    table.styled-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        table.styled-table thead {
+            background: linear-gradient(to right, #1a1a1a, #3d3d3d);
+        }
+
+            table.styled-table thead th {
+                color: white;
+                padding: 12px;
+                text-align: left;
+            }
+
+        table.styled-table tbody tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        table.styled-table tbody td {
+            padding: 12px;
+            vertical-align: middle;
+        }
+
+    .table-actions a {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 8px;
+        color: white;
+        background: linear-gradient(45deg, #ff416c, #ff4b2b);
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: opacity 0.3s;
+    }
+
+        .table-actions a:hover {
+            opacity: .9;
+        }
+
+    .btn-back {
+        display: inline-block;
+        background: linear-gradient(to right, #1e1e1e, #292929);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-weight: bold;
+        text-decoration: none;
+        transition: opacity 0.3s;
+        margin-top: 20px;
+    }
+
+        .btn-back:hover {
+            opacity: .85;
+        }
+</style>
+
+<div class="page-container">
+    <div class="page-header">
+        <h1>Mecánicos</h1>
+    </div>
+    <div class="page-body">
+        <div class="actions">
+            <form class="filter-form" asp-controller="Mecanico" asp-action="Index" method="get">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" value="@nombreFiltro" />
+                <input type="submit" value="Filtrar" />
+            </form>
+            <a asp-action="Create" class="btn-create">Añadir Mecánico</a>
+        </div>
+
+        <div class="table-container">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(m => m.First().Identificacion)</th>
+                        <th>@Html.DisplayNameFor(m => m.First().Nombre)</th>
+                        <th>@Html.DisplayNameFor(m => m.First().Apellidos)</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Identificacion</td>
+                            <td>@item.Nombre</td>
+                            <td>@item.Apellidos</td>                           
+                            <td class="table-actions">
+                                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div>
+            @if (filtroActivo)
+            {
+                <a asp-action="Index" class="btn-back">← Volver a la lista</a>
+            }
+            else
+            {
+                <a href="/Login/VistaAdministrador" class="btn-back">← Volver al menú</a>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,115 @@
+﻿@model SistemaDeOrdenesDeReparacion.Model.OrdenesDeTrabajos
+
+@{
+    ViewData["Title"] = "Detalle de Orden Cancelada";
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: #f5f5f5;
+        margin: 0;
+        padding: 0;
+    }
+
+    .detail-container {
+        max-width: 700px;
+        margin: 40px auto;
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+
+    .detail-header {
+        background: linear-gradient(to right, #1a1a1a, #3d3d3d);
+        color: #fff;
+        text-align: center;
+        padding: 20px;
+    }
+
+        .detail-header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+    .detail-body {
+        padding: 30px;
+    }
+
+    .detail-row {
+        display: flex;
+        margin-bottom: 12px;
+    }
+
+        .detail-row .label {
+            flex: 0 0 40%;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .detail-row .value {
+            flex: 1;
+            color: #333;
+        }
+
+    .detail-footer {
+        padding: 20px;
+        text-align: center;
+        background: #f9f9f9;
+    }
+
+    .btn-back {
+        display: inline-block;
+        background: linear-gradient(to right, #1e1e1e, #292929);
+        color: white;
+        padding: 10px 24px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: opacity 0.3s;
+    }
+
+        .btn-back:hover {
+            opacity: .85;
+        }
+</style>
+
+<div class="detail-container">
+    <div class="detail-header">
+        <h1>Detalle de la Orden Cancelada</h1>
+    </div>
+    <div class="detail-body">
+        <div class="detail-row">
+            <div class="label">Tipo de Vehículo</div>
+            <div class="value">@Html.DisplayFor(m => m.TipoDeVehiculo)</div>
+        </div>
+        <div class="detail-row">
+            <div class="label">Marca</div>
+            <div class="value">@Html.DisplayFor(m => m.Marca)</div>
+        </div>
+        <div class="detail-row">
+            <div class="label">Modelo</div>
+            <div class="value">@Html.DisplayFor(m => m.Modelo)</div>
+        </div>
+        <div class="detail-row">
+            <div class="label">Año de Fabricación</div>
+            <div class="value">@Html.DisplayFor(m => m.AñoDeFabricacion)</div>
+        </div>
+        <div class="detail-row">
+            <div class="label">Tipo de Combustión</div>
+            <div class="value">@Html.DisplayFor(m => m.TipoDeCombustionInterna)</div>
+        </div>
+        <div class="detail-row">
+            <div class="label">Descripción del Problema</div>
+            <div class="value">@Html.DisplayFor(m => m.DescripcionDelProblema)</div>
+        </div>
+        <div class="detail-row">
+            <div class="label">Motivo de la Cancelación</div>
+            <div class="value">@Html.DisplayFor(m => m.MotivoDeCancelacion)</div>
+        </div>
+    </div>
+    <div class="detail-footer">
+        <a asp-action="OrdenesCanceladas" class="btn-back">← Regresar a la lista</a>
+    </div>
+</div>
