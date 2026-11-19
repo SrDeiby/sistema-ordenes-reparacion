@@ -102,9 +102,8 @@ Team project by six students:
 - Aarón Salazar Mata
 - Sebastián Apu Guillén
 - Harold Barquero
-- Martín [last name]
-- [name] (Dann233)
-- **Deiby [last name]**
+- Daniel Solís
+- **Deiby Ruiz Rodríguez**
 
 ### My contribution
 
