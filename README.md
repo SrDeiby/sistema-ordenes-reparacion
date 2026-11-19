@@ -97,7 +97,7 @@ C# · .NET 8 · ASP.NET Core MVC · ASP.NET Core Web API · Entity Framework Cor
 
 ## Team
 
-Team project by six students:
+Team project by five students:
 
 - Aarón Salazar Mata
 - Sebastián Apu Guillén

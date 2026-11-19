@@ -97,14 +97,13 @@ C# · .NET 8 · ASP.NET Core MVC · ASP.NET Core Web API · Entity Framework Cor
 
 ## Equipo
 
-Proyecto grupal de seis estudiantes:
+Proyecto grupal de cinco estudiantes:
 
 - Aarón Salazar Mata
 - Sebastián Apu Guillén
 - Harold Barquero
-- Martín [apellido]
-- [nombre] (Dann233)
-- **Deiby [apellido]**
+- Daniel Solís
+- **Deiby Ruiz Rodríguez**
 
 ### Mi aporte
 
