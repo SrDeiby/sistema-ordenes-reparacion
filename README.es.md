@@ -6,7 +6,7 @@ Aplicación web para administrar un taller mecánico: clientes, mecánicos, inve
 
 Proyecto del curso **IF4101 Lenguajes para Aplicaciones Comerciales**, Universidad de Costa Rica, Sede Guanacaste (I ciclo 2025). Lo desarrollamos en equipo y estuvo publicado en Azure App Service con base de datos en Azure SQL.
 
-![Panel del mecánico](docs/capturas/02-panel-mecanico.png)
+![Órdenes de trabajo](docs/capturas/04-ordenes-de-trabajo.png)
 
 ## Funcionalidades
 
@@ -24,10 +24,12 @@ Proyecto del curso **IF4101 Lenguajes para Aplicaciones Comerciales**, Universid
 |---|---|
 | ![Inicio de sesión](docs/capturas/01-login.png) | ![Panel del administrador](docs/capturas/03-panel-administrador.png) |
 | Inicio de sesión | Panel del administrador |
-| ![Órdenes de trabajo](docs/capturas/04-ordenes-de-trabajo.png) | ![Asignación de repuestos y servicios](docs/capturas/05-asignar-repuestos-servicios.png) |
-| Órdenes de trabajo | Asignación de repuestos y servicios a una orden |
-| ![Resumen de costos](docs/capturas/06-resumen-de-costos.png) | ![Vista del cliente](docs/capturas/07-vista-cliente.png) |
-| Resumen de costos | Vista del cliente |
+| ![Panel del mecánico](docs/capturas/02-panel-mecanico.png) | ![Repuestos asignados a una orden](docs/capturas/05-asignar-repuestos-servicios.png) |
+| Panel del mecánico | Repuestos asignados a una orden en proceso |
+| ![Resumen de costos](docs/capturas/06-resumen-de-costos.png) | ![Órdenes del cliente](docs/capturas/07-vista-cliente.png) |
+| Resumen de costos de la orden | Órdenes vistas por el cliente |
+| ![Catálogo de servicios](docs/capturas/08-catalogo-servicios.png) | |
+| Catálogo de servicios (mi módulo) | |
 
 ## Arquitectura
 

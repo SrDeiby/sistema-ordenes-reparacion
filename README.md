@@ -6,7 +6,7 @@ A web application for running an auto repair shop. It handles customers, mechani
 
 Built as a team project for **IF4101 Business Application Languages** at the University of Costa Rica, Guanacaste campus (first semester 2025). The original version was deployed to Azure App Service with an Azure SQL database.
 
-![Mechanic dashboard](docs/capturas/02-panel-mecanico.png)
+![Work orders](docs/capturas/04-ordenes-de-trabajo.png)
 
 ## Features
 
@@ -24,10 +24,12 @@ Built as a team project for **IF4101 Business Application Languages** at the Uni
 |---|---|
 | ![Login](docs/capturas/01-login.png) | ![Admin dashboard](docs/capturas/03-panel-administrador.png) |
 | Login | Administrator dashboard |
-| ![Work orders](docs/capturas/04-ordenes-de-trabajo.png) | ![Assigning parts and services](docs/capturas/05-asignar-repuestos-servicios.png) |
-| Work orders | Assigning parts and services to an order |
-| ![Cost summary](docs/capturas/06-resumen-de-costos.png) | ![Customer view](docs/capturas/07-vista-cliente.png) |
-| Cost summary | Customer view |
+| ![Mechanic dashboard](docs/capturas/02-panel-mecanico.png) | ![Parts assigned to an order](docs/capturas/05-asignar-repuestos-servicios.png) |
+| Mechanic dashboard | Parts assigned to an order in progress |
+| ![Cost summary](docs/capturas/06-resumen-de-costos.png) | ![Customer orders](docs/capturas/07-vista-cliente.png) |
+| Order cost summary | Orders as seen by the customer |
+| ![Services catalog](docs/capturas/08-catalogo-servicios.png) | |
+| Services catalog (my module) | |
 
 ## Architecture
 
